@@ -3,12 +3,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace WebServer_Demo
+namespace SimpleWebServer
 {
-    class Program
+    class SimpleWebServer
     {
-        static void Main(string[] args)
+        static void Main()
         {
+            var NewLine = Environment.NewLine;
             // IPAddress.Loopback -> localhost
             // This is the prefered way => only with port is depricated
             TcpListener tcpListener = new TcpListener(IPAddress.Loopback, 3000);
@@ -29,14 +30,26 @@ namespace WebServer_Demo
                     Console.WriteLine(stringRequest);
 
                     // Environment.NewLine => on each OS, the new line is different
-                    string response = "HTTP/1.0 200 OK" + Environment.NewLine + "Message: Hello!!!" + Environment.NewLine;
+                    // ERROR: Content Length Mismatch
+                    // string response = "HTTP/1.0 200 OK" + NewLine + "Message: Hello!!!" + NewLine + "Content-Length: 30" + NewLine + NewLine + "<h1> Hello, user</h1>" + NewLine;
+                    string responseBody = "<h1> Hello, user</h1>";
+
+                    // {responseBody.Length} => because is simple string with Latin Letters
+                    string response =
+                        "HTTP/1.0 200 OK" + NewLine +
+                        "Message: Hello!!!" + NewLine +
+                        "Content-Type: text/plain" + NewLine +
+                        // "Content-Disposition: attachment; filename=\"index.html\"" + NewLine + 
+                        $"Content-Length: {responseBody.Length}" + NewLine + NewLine +
+                        responseBody;
                     byte[] responseBytes = Encoding.UTF8.GetBytes(response);
 
                     stream.Write(responseBytes, 0, responseBytes.Length);
-
                 };
             }
 
         }
     }
 }
+
+// Default Content-Type : text/html
