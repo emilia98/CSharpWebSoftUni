@@ -100,14 +100,17 @@ namespace HTTP.Requests
 
         private void ParseRequestQueryParameters()
         {
-            string splitUrl = this.Url.Split('?')[1];
+            var splitUrl = this.Url.Split('?');
 
-            if(splitUrl.Length == 0)
+            if(splitUrl.Length < 2)
             {
                 return;
             }
+
+            string query = splitUrl[1];
+
             // remove fragment from query params
-            string queryParams = splitUrl.Split('#')[0];
+            string queryParams = query.Split('#')[0];
 
             string[] pairs = queryParams.Split('&');
 
@@ -132,7 +135,7 @@ namespace HTTP.Requests
                 return;
             }
 
-            string[] pairs = formData.Split('&');
+            string[] pairs = formData.Split('&', StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var pair in pairs)
             {

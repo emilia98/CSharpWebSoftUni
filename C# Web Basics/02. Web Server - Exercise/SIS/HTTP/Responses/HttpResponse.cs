@@ -38,8 +38,23 @@ namespace HTTP.Responses
         public byte[] GetBytes()
         {
             string toString = this.ToString();
+            int contentLength = this.Content.Length;
+            byte[] responseWithoutBody = Encoding.UTF8.GetBytes(toString);
 
-             
+            int responseWithoutBodyLength = responseWithoutBody.Length;
+            byte[] responseWithBody = new byte[responseWithoutBodyLength + contentLength];
+
+            for (int i = 0; i < responseWithoutBodyLength; i++)
+            {
+                responseWithBody[i] = responseWithoutBody[i];
+            }
+
+            for (int i = responseWithoutBodyLength; i < responseWithBody.Length; i++)
+            {
+                responseWithBody[i] = this.Content[i - responseWithoutBodyLength];
+            }
+
+            return responseWithBody;
         }
 
         public override string ToString()
