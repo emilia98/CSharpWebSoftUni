@@ -123,7 +123,22 @@ namespace HTTP.Requests
                 CoreValidator.ThrowIfNullOrEmptyInQueryParams(key, nameof(key));
                 CoreValidator.ThrowIfNullOrEmptyInQueryParams(value, nameof(value));
 
-                this.QueryData.Add(key, value);
+                if(!this.QueryData.ContainsKey(key))
+                {
+                    this.QueryData.Add(key, new List<string>());
+                }
+
+                ((IList<string>)this.QueryData[key]).Add(value);
+                /*
+                if(this.QueryData.ContainsKey(key))
+                {
+                    this.QueryData[key] = new List<string>() { value };
+                } 
+                else
+                {
+                    this.QueryData.Add(key, value);
+                }
+                */
             }
         }
 
