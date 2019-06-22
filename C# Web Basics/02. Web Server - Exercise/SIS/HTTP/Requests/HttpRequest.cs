@@ -161,7 +161,14 @@ namespace HTTP.Requests
                 CoreValidator.ThrowIfNullOrEmptyInRequestBody(key, nameof(key));
                 CoreValidator.ThrowIfNullOrEmptyInRequestBody(value, nameof(value));
 
-                this.FormData.Add(key, value);
+                if(!this.FormData.ContainsKey(key))
+                {
+                    this.FormData.Add(key, new List<string>());
+                }
+
+                ((IList<string>)this.FormData[key]).Add(value);
+
+                // this.FormData.Add(key, value);
             }
 
         }

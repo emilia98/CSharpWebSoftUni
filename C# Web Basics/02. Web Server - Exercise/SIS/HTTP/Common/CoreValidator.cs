@@ -36,6 +36,5 @@ namespace HTTP.Common
                 throw new BadRequestException(string.Format("The request body {0} cannot be null or empty!", name));
             }
         }
-        }
     }
 }
