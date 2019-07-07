@@ -1,6 +1,7 @@
 ﻿using FDMC.Data;
 using FDMC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,78 @@ namespace FDMC.Controllers
                 Console.WriteLine(e.StackTrace);
                 return this.Redirect("/");
             }
-
-           
-
-
-            
             //return this.Json(cat);
+        }
+
+        [HttpGet("/cat/delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            bool isParsed = int.TryParse(id, out int Id);
+
+            try
+            {
+                if(!isParsed)
+                {
+                    throw new Exception("Invalid Id!");
+                }
+
+                var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
+
+                if(cat == null)
+                {
+                    return NotFound();
+                }
+
+                this.Context.Cats.Remove(cat);
+                await this.Context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return this.Redirect("/");
+        }
+
+        [HttpGet("/cat/details/{id}")]
+        public async Task<IActionResult> Details(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            bool isParsed = int.TryParse(id, out int Id);
+
+            try
+            {
+                if(!isParsed)
+                {
+                    throw new Exception("Invalid Id!");
+                }
+
+                var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
+
+                if(cat == null)
+                {
+                    return NotFound();
+                }
+
+                this.ViewBag.Cat = cat;
+
+                return this.View();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return this.Redirect("/");
         }
     }
 }

@@ -5,19 +5,37 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FDMC.Models;
+using FDMC.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FDMC.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public CatsDbContext Context { get; set; }
+
+        public HomeController(CatsDbContext context)
         {
-            return View();
+            this.Context = context;
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var length = 0;
+            try
+            {
+                var cats = await this.Context.Cats.ToListAsync();
+                length = cats.Count();
+                this.ViewBag.Cats = cats;
+                return View();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return this.Redirect("/");
+            }
+
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

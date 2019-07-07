@@ -1,8 +1,26 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
+    var cats = this.ViewBag.Cats;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        @foreach (var cat in cats)
+        {
+            <div class="col-md-3 col-lg-3 col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src=@cat.ImageUrl alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@cat.Name</h5>
+                        <p class="card-text">Breed: <span>@cat.Breed</span></p>
+                        <p class="card-text">Age: <span>@cat.Age</span></p>
+                        <a href="/cat/details/@cat.Id" class="btn btn-primary">Details</a>
+                        <a href="#" class="btn btn-success">Edit</a>
+                        <a href="/cat/delete/@cat.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
