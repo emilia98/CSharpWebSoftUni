@@ -48,7 +48,7 @@ namespace FDMC.Controllers
             //return this.Json(cat);
         }
 
-        [HttpGet("/cat/delete/{id}")]
+        [HttpGet("/cat/delete/{id?}")]
         public async Task<IActionResult> Delete(string id)
         {
             if(id == null)
@@ -62,7 +62,7 @@ namespace FDMC.Controllers
             {
                 if(!isParsed)
                 {
-                    throw new Exception("Invalid Id!");
+                    return NotFound();
                 }
 
                 var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
@@ -83,7 +83,7 @@ namespace FDMC.Controllers
             return this.Redirect("/");
         }
 
-        [HttpGet("/cat/details/{id}")]
+        [HttpGet("/cat/details/{id?}")]
         public async Task<IActionResult> Details(string id)
         {
             if(id == null)
@@ -97,7 +97,7 @@ namespace FDMC.Controllers
             {
                 if(!isParsed)
                 {
-                    throw new Exception("Invalid Id!");
+                    return NotFound();
                 }
 
                 var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
@@ -110,6 +110,86 @@ namespace FDMC.Controllers
                 this.ViewBag.Cat = cat;
 
                 return this.View();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return this.Redirect("/");
+        }
+
+        [HttpGet("/cat/edit/{id?}")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            bool isParsed = int.TryParse(id, out int Id);
+
+            try
+            {
+                if(!isParsed)
+                {
+                    return NotFound();
+                }
+
+                var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
+
+                if(cat == null)
+                {
+                    return NotFound();
+                }
+
+                this.ViewBag.Cat = cat;
+
+                return this.View();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return this.Redirect("/");
+            }
+        }
+
+        [HttpPost("/cat/edit/{id?}")]
+        public async Task<IActionResult> EditPost(string id, string name, string breed, int? age, string imageUrl)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            if(name == null || breed == null || age == null || imageUrl == null)
+            {
+                return this.StatusCode(500);
+            }
+
+            bool isParsed = int.TryParse(id, out int Id);
+
+            try
+            {
+                if(!isParsed)
+                {
+                    return NotFound();
+                }
+
+                var cat = await this.Context.Cats.FirstOrDefaultAsync(c => c.Id == Id);
+
+                if(cat == null)
+                {
+                    return NotFound();
+                }
+
+                cat.Name = name;
+                cat.Age = (int)age;
+                cat.Breed = breed;
+                cat.ImageUrl = imageUrl;
+
+                this.Context.Update(cat);
+                await this.Context.SaveChangesAsync();
             }
             catch(Exception e)
             {

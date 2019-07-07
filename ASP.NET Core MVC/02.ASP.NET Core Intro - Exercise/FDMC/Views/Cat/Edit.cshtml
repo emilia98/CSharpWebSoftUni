@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Edit";
+    var cat = ViewBag.Cat;
+}
+
+<h1>Edit</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" value=@cat.Name />
+    </div>
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="text" class="form-control" id="age" name="age" value=@cat.Age />
+    </div>
+    <div class="form-group">
+        <label for="breed">Breed:</label>
+        <input type="text" class="form-control" id="breed" name="breed" value=@cat.Breed />
+    </div>
+    <div class="form-group">
+        <label for="imageUrl">ImageUrl:</label>
+        <input type="text" class="form-control" id="imageUrl" name="imageUrl" value=@cat.ImageUrl />
+    </div>
+    <button type="submit" class="btn btn-success">Edit</button>
+</form>
