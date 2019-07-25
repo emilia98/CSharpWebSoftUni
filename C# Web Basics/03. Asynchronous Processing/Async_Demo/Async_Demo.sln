@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple_Desktop", "Simple_De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Download_Imgs", "Download_Imgs\Download_Imgs.csproj", "{4469529B-F973-493B-B3C2-974943496726}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Download_Imgs_Async", "Download_Imgs_Async\Download_Imgs_Async.csproj", "{D9A4CB96-E346-40DC-BB40-FA221A95795F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebServer", "SimpleWebServer\SimpleWebServer.csproj", "{758B5EF4-5DC6-40EA-8B5E-CBDEF3AE3CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{4469529B-F973-493B-B3C2-974943496726}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4469529B-F973-493B-B3C2-974943496726}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4469529B-F973-493B-B3C2-974943496726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9A4CB96-E346-40DC-BB40-FA221A95795F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9A4CB96-E346-40DC-BB40-FA221A95795F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A4CB96-E346-40DC-BB40-FA221A95795F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9A4CB96-E346-40DC-BB40-FA221A95795F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758B5EF4-5DC6-40EA-8B5E-CBDEF3AE3CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758B5EF4-5DC6-40EA-8B5E-CBDEF3AE3CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758B5EF4-5DC6-40EA-8B5E-CBDEF3AE3CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758B5EF4-5DC6-40EA-8B5E-CBDEF3AE3CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
