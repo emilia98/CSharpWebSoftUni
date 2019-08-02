@@ -5,7 +5,9 @@ using HTTP.Exceptions;
 using HTTP.Requests;
 using HTTP.Responses;
 using System;
+using System.IO;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WebServer.Results;
@@ -71,8 +73,19 @@ namespace WebServer
 
         private IHttpResponse ReturnIfResource(IHttpRequest httpRequest)
         {
-            Console.WriteLine();
-            //TODO: 
+            string folderPrefix = "/../../../../";
+            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            string resourceFolderPath = "Resources/";
+            string requestedResource = httpRequest.Path;
+
+            string fullPathToResource = assemblyLocation + folderPrefix + resourceFolderPath + requestedResource;
+
+            if(File.Exists(fullPathToResource))
+            {
+                byte[] content = File.ReadAllBytes(fullPathToResource);
+                return new InlineResourceResult(content, HttpResponseStatusCode.Found);
+            }
+
             return new TextResult($"Route with method {httpRequest.RequestMethod} and path \"{httpRequest.Path}\" not found.", HttpResponseStatusCode.NotFound);
         }
 
@@ -145,10 +158,13 @@ namespace WebServer
             if (isContained == null || isContained.Value == false)
             {
                 // return new TextResult($"Route with method {httpRequest.RequestMethod} and path \"{httpRequest.Path}\" not found.", HttpResponseStatusCode.NotFound);
-                this.ReturnIfResource(httpRequest);
+                Console.WriteLine(httpRequest.Path);
+                return this.ReturnIfResource(httpRequest);
             }
 
             var func = this.serverRoutingTable.Get(httpRequest.RequestMethod, httpRequest.Path);
+
+            Console.WriteLine(func);
 
             if(func == null)
             {

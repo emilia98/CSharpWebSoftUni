@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SIS.WebServer\SIS.WebServer.csproj" />
+    <ProjectReference Include="..\HTTP\HTTP.csproj" />
+    <ProjectReference Include="..\IRunes.Data\IRunes.Data.csproj" />
+    <ProjectReference Include="..\IRunes.Models\IRunes.Models.csproj" />
+    <ProjectReference Include="..\WebServer\WebServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Extensions\" />
+    <Folder Include="Resources\Extensions\" />
   </ItemGroup>
 
 </Project>

@@ -1,14 +1,15 @@
-﻿namespace IRunes.App
+﻿using HTTP.Enums;
+using IRunes.Data;
+using WebServer;
+using WebServer.Results;
+using WebServer.Routing;
+
+namespace IRunes.App
 {
-    using SIS.WebServer;
-    using SIS.WebServer.Result;
-    using SIS.WebServer.Routing;
-    using SIS.HTTP.Enums;
-    using Data;
 
     public class Launcher
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             using (var context = new RunesDbContext())
             {
@@ -24,7 +25,7 @@
 
         private static void Configure(ServerRoutingTable serverRoutingTable)
         {
-            serverRoutingTable.Add(HttpRequestMethod.Get, "/", request => new RedirectResult("/Home/Index"));
+            serverRoutingTable.Add(HttpRequestMethod.GET, "/", request => new RedirectResult("/Home/Index"));
         }
     }
 }
