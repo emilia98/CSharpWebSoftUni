@@ -6,6 +6,8 @@ using IRunes.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace IRunes.App.Controllers
 {
@@ -46,13 +48,17 @@ namespace IRunes.App.Controllers
                 string link = ((IList<string>)httpRequest.FormData["link"]).FirstOrDefault();
                 string price = ((IList<string>)httpRequest.FormData["price"]).FirstOrDefault();
 
-                /*
-                if(link.StartsWith("https://www.youtube.com/watch"))
+                string decodedLink = WebUtility.UrlDecode(link);
+
+                if (decodedLink.StartsWith("https://www.youtube.com/watch"))
                 {
-                    string videoId = 
-                 // https://www.youtube.com/watch?v=wIQWRHJq_kE
+                    string pattern = @"v=(.+)&*";
+                    Regex regex = new Regex(pattern);
+
+                    var match = regex.Match(decodedLink);
+                    var videoId = match.Value.Replace("v=", "");
+                    link = $"https://www.youtube.com/embed/{videoId}";
                 }
-                */
 
                 Track track = new Track()
                 {
