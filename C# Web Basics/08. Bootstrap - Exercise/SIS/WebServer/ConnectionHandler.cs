@@ -73,7 +73,7 @@ namespace WebServer
 
         private IHttpResponse ReturnIfResource(IHttpRequest httpRequest)
         {
-            string folderPrefix = "/../../../../";
+            string folderPrefix = "/../";
             string assemblyLocation = Assembly.GetExecutingAssembly().Location;
             string resourceFolderPath = "Resources/";
             string requestedResource = httpRequest.Path;
