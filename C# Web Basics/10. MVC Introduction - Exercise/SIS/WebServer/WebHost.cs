@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using HTTP.Enums;
+using HTTP.Responses;
 using MvcFramework.Attributes.Action;
 using MvcFramework.Attributes.Http;
+using MvcFramework.Attributes.Security;
 using MvcFramework.Results;
 using MvcFramework.Routing;
 
@@ -42,7 +44,7 @@ namespace MvcFramework
 
                 foreach (var action in actions)
                 {
-                    var path = $"/{controller.Name.Replace("Controller", "")}/{action.Name}";
+                    var path = $"/{controller.Name.Replace("Controller", string.Empty)}/{action.Name}";
                     var attribute = action.GetCustomAttributes()
                                           .Where(x => x.GetType().IsSubclassOf(typeof(BaseHttpAttribute)))
                                           .LastOrDefault() as BaseHttpAttribute;
@@ -67,6 +69,18 @@ namespace MvcFramework
                     {
                         var controllerInstance = Activator.CreateInstance(controller);
                         ((Controller)controllerInstance).Request = request;
+
+                        // Security Authorization - TODO: Refactor this
+                        var controllerPrincipal = ((Controller)controllerInstance).User;
+                        var authorizeAttribute = action.GetCustomAttributes()
+                                                       .LastOrDefault(a => a.GetType() == typeof(AuthorizeAttribute)) as AuthorizeAttribute;
+
+                        if(authorizeAttribute != null && !authorizeAttribute.IsInAuthority(controllerPrincipal))
+                        {
+                            // TODO: Redirect to configured URL
+                            return new HttpResponse(HttpResponseStatusCode.Forbidden);
+                        }
+
                         var response = action.Invoke(controllerInstance, new object[0]) as ActionResult;
                         return response;
                     });

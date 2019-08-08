@@ -17,7 +17,7 @@ namespace IRunes.Services
 
         public bool AddTrackToAlbum(string albumId, Track trackForDb)
         {
-            Album albumFromDb = this.GetAlbumId(albumId);
+            Album albumFromDb = this.GetAlbumById(albumId);
 
             if(albumFromDb == null)
             {
@@ -41,7 +41,7 @@ namespace IRunes.Services
             return album;
         }
 
-        public Album GetAlbumId(string id)
+        public Album GetAlbumById(string id)
         {
             return context.Albums
                           .Include(album => album.Tracks)

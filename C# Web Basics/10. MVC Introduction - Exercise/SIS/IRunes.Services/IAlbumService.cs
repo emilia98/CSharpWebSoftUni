@@ -11,6 +11,6 @@ namespace IRunes.Services
 
         ICollection<Album> GetAllAlbums();
 
-        Album GetAlbumId(string id);
+        Album GetAlbumById(string id);
     }
 }

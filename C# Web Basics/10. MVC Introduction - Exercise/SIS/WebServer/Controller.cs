@@ -17,7 +17,11 @@ namespace MvcFramework
 
         protected Dictionary<string, object> ViewData;
 
-        protected Principal User => (Principal)this.Request.Session.GetParameter("principal");
+        // TODO: Refactor this code
+        public Principal User =>
+            this.Request.Session.ContainsParameter("principal") 
+            ? (Principal)this.Request.Session.GetParameter("principal") 
+            : null;
 
         public IHttpRequest Request { get; set; }
 
@@ -33,7 +37,8 @@ namespace MvcFramework
 
         protected bool IsLoggedIn()
         {
-            return this.User != null;
+            // return this.User != null;
+            return this.Request.Session.ContainsParameter("principal");
         }
 
         protected void SignIn(string id, string username, string email)
@@ -79,9 +84,14 @@ namespace MvcFramework
             return new JsonResult(obj.ToJson());
         }
 
-        protected ActionResult File()
+        protected ActionResult File(byte[] fileContent)
         {
-            return null;
+            return new FileResult(fileContent);
+        }
+
+        protected ActionResult NotFound(string message = "")
+        {
+            return new NotFoundResult(message);
         }
     }
 }
