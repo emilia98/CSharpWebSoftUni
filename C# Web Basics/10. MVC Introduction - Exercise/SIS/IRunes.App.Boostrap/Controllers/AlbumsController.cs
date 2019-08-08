@@ -1,11 +1,12 @@
-﻿using HTTP.Requests;
-using HTTP.Responses;
-using IRunes.App.Extensions;
-using IRunes.Data;
+﻿using IRunes.App.Extensions;
+using IRunes.App.ViewModels;
 using IRunes.Models;
-using Microsoft.EntityFrameworkCore;
+using IRunes.Services;
 using MvcFramework;
 using MvcFramework.Attributes.Http;
+using MvcFramework.Attributes.Security;
+using MvcFramework.Mapping;
+using MvcFramework.Results;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,87 +14,69 @@ namespace IRunes.App.Controllers
 {
     public class AlbumsController : Controller
     {
-        public IHttpResponse All()
+        private readonly IAlbumService albumService;
+
+        public AlbumsController()
         {
-            if(!this.IsLoggedIn())
-            {
-                return this.Redirect("/Users/Login");
-            }
-
-            using(var context = new RunesDbContext())
-            {
-                ICollection<Album> albums = context.Albums.ToList();
-
-                if(albums.Count == 0)
-                {
-                    this.ViewData["Albums"] = "There are curently no albums.";
-                }
-                else
-                {
-                    this.ViewData["Albums"] = string.Join("<br />", albums.Select(album => album.ToHtmlAll()).ToList());
-                }
-                
-                return this.View();
-            }
+            this.albumService = new AlbumService();
         }
 
-        public IHttpResponse Create(IHttpRequest httpRequest)
+        [Authorize]
+        public ActionResult All()
         {
-            if (!this.IsLoggedIn())
+            ICollection<Album> albums = this.albumService.GetAllAlbums();
+
+            if (albums.Count == 0)
             {
-                return this.Redirect("/Users/Login");
+                this.ViewData["Albums"] = "There are curently no albums.";
+            }
+            else
+            {
+                this.ViewData["Albums"] = string.Join("<br />", albums.Select(album => album.ToHtmlAll()).ToList());
             }
 
             return this.View();
         }
 
-        [HttpPost(ActionName = "Create")]
-        public IHttpResponse CreatePost(IHttpRequest httpRequest)
+        [Authorize]
+        public ActionResult Create()
         {
-            if (!this.IsLoggedIn())
+            return this.View();
+        }
+
+        [Authorize]
+        [HttpPost(ActionName = "Create")]
+        public ActionResult CreatePost()
+        {
+            string name = ((IList<string>)this.Request.FormData["name"]).FirstOrDefault();
+            string cover = ((IList<string>)this.Request.FormData["cover"]).FirstOrDefault();
+
+            Album album = new Album()
             {
-                return this.Redirect("/Users/Login");
-            }
+                Name = name,
+                Cover = cover,
+                Price = 0m
+            };
 
-            using(var context = new RunesDbContext())
-            {
-                string name = ((IList<string>)httpRequest.FormData["name"]).FirstOrDefault();
-                string cover = ((IList<string>)httpRequest.FormData["cover"]).FirstOrDefault();
-
-                Album album = new Album()
-                {
-                    Name = name,
-                    Cover = cover,
-                    Price = 0m
-                };
-
-                context.Albums.Add(album);
-                context.SaveChanges();
-            }
+            this.albumService.CreateAlbum(album);
 
             return this.Redirect("/Albums/All");
         }
 
-        public IHttpResponse Details(IHttpRequest httpRequest)
+        [Authorize]
+        public ActionResult Details()
         {
-            if (!this.IsLoggedIn())
+            string albumId = ((IList<string>)this.Request.QueryData["id"])[0];
+            Album albumFromDb = this.albumService.GetAlbumById(albumId);
+
+            AlbumViewModel albumViewModel = ModelMapper.ProjectTo<AlbumViewModel>(albumFromDb);
+
+            if (albumFromDb == null)
             {
-                return this.Redirect("/Users/Login");
+                return this.Redirect("/Albums/All");
             }
 
-            string albumId = ((IList<string>)httpRequest.QueryData["id"])[0];
-
-            using(var context = new RunesDbContext())
-            {
-                Album albumFromDb = context.Albums.Include(a => a.Tracks).SingleOrDefault(album => album.Id == albumId);
-
-                if(albumFromDb == null)
-                {
-                    return this.Redirect("/Albums/All");
-                }
-
-                this.ViewData["Album"] = albumFromDb.ToHtmlDetails();
-            }
+            this.ViewData["Album"] = albumFromDb.ToHtmlDetails();
 
             return this.View();
         }
