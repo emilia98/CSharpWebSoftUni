@@ -1,23 +1,22 @@
-﻿using HTTP.Requests;
-using HTTP.Responses;
-using MvcFramework;
+﻿using MvcFramework;
 using MvcFramework.Attributes.Http;
+using MvcFramework.Results;
 
 namespace IRunes.App.Controllers
 {
     public class HomeController : Controller
     {
         [HttpGet(Url = "/")]
-        public IHttpResponse IndexSlash(IHttpRequest httpRequest)
+        public ActionResult IndexSlash()
         {
-            return Index(httpRequest);
+            return Index();
         }
 
-        public IHttpResponse Index(IHttpRequest httpRequest)
+        public ActionResult Index()
         {
             if(this.IsLoggedIn())
             {
-                this.ViewData["Username"] = httpRequest.Session.GetParameter("username");
+                this.ViewData["Username"] = this.User.Username;
 
                 return this.View("Home");
             }
