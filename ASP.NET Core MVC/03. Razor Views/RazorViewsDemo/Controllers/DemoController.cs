@@ -56,5 +56,9 @@ namespace RazorViewsDemo.Controllers
             return this.View();
         }
 
+        public IActionResult HtmlHelpers()
+        {
+            return this.View();
+        }
     }
 }
