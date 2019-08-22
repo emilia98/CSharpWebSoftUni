@@ -51,5 +51,10 @@ namespace RazorViewsDemo.Controllers
             return this.View();
         }
 
+        public IActionResult Section()
+        {
+            return this.View();
+        }
+
     }
 }

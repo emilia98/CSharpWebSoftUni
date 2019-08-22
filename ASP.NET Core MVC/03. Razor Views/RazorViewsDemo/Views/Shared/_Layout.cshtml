@@ -35,6 +35,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (IsSectionDefined("MenuItems"))
+                        {
+                            @RenderSection("MenuItems", false);
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                No custom links
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -48,6 +58,7 @@
             <a href="/demo/di" class="btn btn-danger">DI</a>
             <a href="/demo/nolayout" class="btn btn-light">No Layout</a>
             <a href="/demo/novm" class="btn btn-warning">No View Model</a>
+            <a href="/demo/section" class="btn btn-dark">Section</a>
         </div>
         <main role="main" class="pb-3">
             @RenderBody()
