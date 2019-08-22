@@ -1,0 +1,17 @@
+﻿@using RazorViewsDemo.Services
+@inject IUsersService UsersService
+
+@{
+    ViewData["Title"] = "UsingDI";
+}
+
+<h1>UsingDI</h1>
+
+<h2>Users @UsersService.GetCount() user(s)</h2>
+
+<ul>
+    @foreach (var item in @UsersService.GetUsernames())
+    {
+        <li>@item</li>
+    }
+</ul>

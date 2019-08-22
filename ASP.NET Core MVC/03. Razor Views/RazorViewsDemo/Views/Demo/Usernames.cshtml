@@ -1,0 +1,16 @@
+﻿@model RazorViewsDemo.Models.Home.DemoViewModel;
+
+@{
+    ViewData["Title"] = "Usernames";
+}
+
+<h1>Usernames</h1>
+
+<h2>@this.Model.Name</h2>
+
+<ul>
+    @foreach (var item in this.Model.Usernames)
+    {
+        <li>@item</li>
+    }
+</ul>
