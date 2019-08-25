@@ -76,5 +76,10 @@ namespace RazorViewsDemo.Controllers
             var viewModel = new DemoViewModel { Usernames = usernames };
             return this.View(viewModel);
         }
+
+        public IActionResult ViewComponent()
+        {
+            return this.View();
+        }
     }
 }

@@ -7,5 +7,7 @@ namespace RazorViewsDemo.Services
         int GetCount();
 
         IEnumerable<string> GetUsernames();
+
+        string LatestUsername();
     }
 }

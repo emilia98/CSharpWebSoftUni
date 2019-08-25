@@ -21,5 +21,14 @@ namespace RazorViewsDemo.Services
         {
             return this.dbContext.Users.Select(x => x.UserName).ToList();
         }
+
+        public string LatestUsername()
+        {
+            return this.dbContext
+                .Users
+                .OrderByDescending(x => x.Id)
+                .Select(x => x.UserName)
+                .FirstOrDefault();
+        }
     }
 }

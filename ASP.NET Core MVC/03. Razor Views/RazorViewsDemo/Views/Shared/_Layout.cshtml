@@ -64,6 +64,7 @@
             <a href="/demo/htmlhelpers" class="btn btn-success">HTML Helpers</a>
             <a href="/demo/taghelpers" class="btn btn-danger">Tag Helpers</a>
             <partial name="_CommonPartial" />
+            <a href="/demo/viewcomponent" class="btn btn-primary">View Component</a>
         </div>
         <main role="main" class="pb-3">
             @RenderBody()
@@ -72,6 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
+            <vc:latest-user text="Welcome"></vc:latest-user>
             &copy; 2019 - RazorViewsDemo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
