@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewData["Title"] = "HtmlRaw";
+    var someDbValue = "<script>alert('test');</script>";
+}
+
+<h1>HtmlRaw</h1>
+
+@someDbValue;
+
+@Html.Raw(someDbValue);
+

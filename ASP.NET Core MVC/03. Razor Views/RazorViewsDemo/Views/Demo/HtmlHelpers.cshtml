@@ -1,0 +1,19 @@
+﻿@model RazorViewsDemo.Models.Home.HtmlHelpersViewModel;
+@{
+    ViewData["Title"] = "HtmlHelpers";
+}
+
+<h1>HtmlHelpers</h1>
+
+<div>
+    @Html.DisplayName("Text")
+    @Html.EditorFor(x => x.InputText)
+</div>
+<div>
+    @Html.DisplayName("Number")
+    @Html.EditorFor(x => x.InputNumber)
+</div>
+<div>
+    @Html.DisplayNameFor(x => x.TextArea)
+    @Html.EditorFor(x => x.TextArea)
+</div>

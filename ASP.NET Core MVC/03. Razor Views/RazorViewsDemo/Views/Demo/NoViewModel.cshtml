@@ -1,0 +1,19 @@
+﻿
+@{
+    @model IEnumerable<string>
+    @*the problem is when we need to add more props, that's why we use a view model*@
+    ViewData["Title"] = "NoViewModel";
+}
+
+<h1>NoViewModel</h1>
+
+@*<h2>Users @UsersService.GetCount() user(s)</h2>*@
+
+<ul>
+    @foreach (var item in this.Model)
+    {
+        <li>@item.Trim()</li>
+    }
+</ul>
+
+
