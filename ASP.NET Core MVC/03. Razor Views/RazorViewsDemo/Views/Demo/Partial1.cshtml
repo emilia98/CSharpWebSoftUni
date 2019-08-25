@@ -1,0 +1,11 @@
+﻿@model RazorViewsDemo.Models.Home.DemoViewModel;
+@{
+    ViewData["Title"] = "Partial1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Partial1</h1>
+
+<partial name="_CommonPartial" />
+
+<partial name="_UsersListPartial" for="Usernames" />

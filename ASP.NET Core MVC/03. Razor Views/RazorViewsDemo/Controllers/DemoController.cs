@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RazorViewsDemo.Models.Home;
 using RazorViewsDemo.Services;
@@ -59,6 +56,25 @@ namespace RazorViewsDemo.Controllers
         public IActionResult HtmlHelpers()
         {
             return this.View();
+        }
+
+        public IActionResult TagHelpers()
+        {
+            return this.View();
+        }
+
+        public IActionResult Partial1()
+        {
+            var usernames = this.usersService.GetUsernames().ToList();
+            var viewModel = new DemoViewModel { Usernames = usernames };
+            return this.View(viewModel);
+        }
+
+        public IActionResult Partial2()
+        {
+            var usernames = this.usersService.GetUsernames().ToList();
+            var viewModel = new DemoViewModel { Usernames = usernames };
+            return this.View(viewModel);
         }
     }
 }

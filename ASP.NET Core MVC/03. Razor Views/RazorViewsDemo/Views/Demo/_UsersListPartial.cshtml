@@ -1,0 +1,8 @@
+﻿@model  IEnumerable<string>
+
+@foreach(var item in Model)
+{
+    <h3>
+        <span class="badge badge-dark">@item.ToString()</span>
+    </h3>
+}
